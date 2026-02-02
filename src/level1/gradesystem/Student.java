@@ -54,14 +54,6 @@ public class Student {
         this.studentId = studentId;
     }
 
-    public Double getGrade(String subject){
-        if (subject == null || subject.isBlank()) {
-            throw new IllegalArgumentException("Invalid subject");
-        }
-
-        return grades.get(subject);
-
-    }
     public void addGrade(String subject , Double grade){
         if (subject == null || subject.isBlank()) {
             throw new IllegalArgumentException("Invalid subject");
@@ -70,7 +62,15 @@ public class Student {
             throw new IllegalArgumentException("Invalid grade");
         }
 
-            grades.put(subject,grade);
+        grades.put(subject,grade);
+
+    }
+    public Double getGrade(String subject){
+        if (subject == null || subject.isBlank()) {
+            throw new IllegalArgumentException("Invalid subject");
+        }
+
+        return grades.get(subject);
 
     }
     public double calculateAverage(){
@@ -102,12 +102,12 @@ public class Student {
 
     public String getStudentInfo() {
         return "Student{" +
-                "studentId='" + studentId + '\'' +
+                "id='" + studentId + '\'' +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
-                ", grades=" + grades +
-                ", AverageGrades='" + calculateAverage() +
-                ", LetterGrade='" + getLetterGrade() +
+                ", average=" + calculateAverage() +
+                ", grade=" + getLetterGrade() +
                 '}';
     }
+
 }

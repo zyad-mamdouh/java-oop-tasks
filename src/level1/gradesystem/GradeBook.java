@@ -3,6 +3,7 @@ package level1.gradesystem;
 import java.util.*;
 
 public class GradeBook {
+
     private String className;
     private List<Student> students=new ArrayList<>();
     GradeBook(String className){
@@ -11,13 +12,36 @@ public class GradeBook {
         }
         this.className=className;
     }
+
     public void addStudent(Student student){
+        if(student==null){
+          throw new IllegalArgumentException("student is null");
+        }
+        for (Student s:students){
+            if(Objects.equals(s.getStudentId(), student.getStudentId())){
+                throw new IllegalArgumentException("student is exists ");
+            }
+        }
         students.add(student);
     }
     public void removeStudent(String studentId){
-        students.remove(studentId);
+        if (studentId == null || studentId.isBlank()) {
+            throw new IllegalArgumentException("Invalid studentId");
+        }
+      for (int i=0; i<students.size();i++){
+          if (Objects.equals(students.get(i).getStudentId(),studentId)){
+              students.remove(i);
+              return;
+          }
+      }
+
+        throw new IllegalArgumentException("Student not exists");
+
     }
     public String findStudent(String studentId){
+        if (studentId == null || studentId.isBlank()) {
+            throw new IllegalArgumentException("Invalid studentId");
+        }
         for (Student s:students){
             if(Objects.equals(s.getStudentId(), studentId)){
                 return s.getName()+ ": " + s.getStudentId();
@@ -25,29 +49,50 @@ public class GradeBook {
         }
         return "not found";
     }
+
     public double getClassAverage(){
+        if(students.isEmpty()){
+            return 0;
+        }
         double sum=0;
-        int count=0;
+
         for (Student e :students){
             sum+=e.calculateAverage();
-            count++;
         }
-        return sum/count;
+        return sum/students.size();
 }
+
     public  String getTopStudents(int count){
+        if(count>students.size()){
+            throw new IllegalArgumentException("Count exceeds number of students");
+        }
         if (count <= 0) {
             throw new IllegalArgumentException("Count must be positive");
         }
+
         orderedStudent();
+
         String result = "";
         for (int i =0 ; i<count ;i++){
-            result+=students.get(i).getName() +": "+ students.get(i).getName()+ "\n";
+            result+=students.get(i).getName() +": "+ students.get(i).calculateAverage()+ "\n";
         }
 
 
 
         return result;
     }
+    public String getStudentsByLetterGrade(char letterGrade){
+        String result="";
+        for(Student s:students){
+            if(s.getLetterGrade()==letterGrade){
+               result+=s.getName()+ ": "+ s.calculateAverage()+ "\n";
+            }
+        }
+        if (result.isEmpty()) {
+            return "No students with grade " + letterGrade;
+        }
+        return result;
+       }
 
     public void orderedStudent(){
         Collections.sort(students,new Comparator<Student>(){
@@ -63,8 +108,12 @@ public class GradeBook {
 
 
     public void displayAllStudents() {
+        if (students.isEmpty()){
+            System.out.print("No students");
+            return;
+        }
         for (Student s:students){
-            s.getStudentInfo();
+         System.out.println(s.getStudentInfo());
         }
 
     }
