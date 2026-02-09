@@ -5,6 +5,7 @@ public class Book {
    private String  author;
    private String isbn ;
     private  boolean isAvailable=true;
+
     Book (   String title , String  author , String isbn ){
         this.title=title;
         this.author=author;
@@ -16,6 +17,7 @@ public class Book {
     public String getInfo() {
         return  "- "+title + " by "+ author + " (ISBN: "+ isbn +" )";
     }
+
     void borrow(){
      if(isAvailable){
          isAvailable=false;

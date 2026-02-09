@@ -19,6 +19,7 @@ public class Student {
         if (email == null || !email.contains("@")){
             throw new IllegalArgumentException("Invalid email");
         }
+
         this.studentId=studentId;
         this.name=name;
         this.email=email;

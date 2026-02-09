@@ -17,6 +17,8 @@ public class Library {
      void registerMember(Member member){
         members.add(member);
     }
+
+
      void lendBook(Member member , String isbn){
         for(Book book: books){
             if (book.getIsbn().equals(isbn) && book.isAvailable()){
@@ -28,6 +30,8 @@ public class Library {
         }
 
     }
+
+
      void receiveBook(Member member , String isbn){
         for(Book book: books){
             if(book.getIsbn().equals(isbn)){
@@ -39,6 +43,7 @@ public class Library {
         }
 
     }
+
      void displayAvailableBooks(){
         for (Book book:books){
             if(book.isAvailable()){
@@ -47,6 +52,7 @@ public class Library {
         }
 
     }
+
     void search(String title){
         for (Book book : books){
             if (book.getTitle().equalsIgnoreCase(title)){
@@ -55,6 +61,7 @@ public class Library {
         }
 
     }
+
     String getName() {
         return name;
     }
