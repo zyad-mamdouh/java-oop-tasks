@@ -48,15 +48,20 @@ public:
 const std::string& getId() const{
     return vehicleId;
 }
-  void getVehicleInfo() const {
-        cout << "ID: " << vehicleId
-            << "\nMake: " << make
-            << "\nModel: " << model
-            << "\nYear: " << year
-            << "\nDaily Rate: " << dailyRate
-            << "\nAvailable: " << (isAvailable ? "Yes" : "No");
-       
-    }
+
+  std::string getVehicleInfo() const {
+    std::string info;
+
+    info += "ID: " + vehicleId;
+    info += "\nMake: " + make;
+    info += "\nModel: " + model;
+    info += "\nYear: " + std::to_string(year);
+    info += "\nDaily Rate: " + std::to_string(dailyRate);
+    info += "\nAvailable: ";
+    info += (isAvailable ? "Yes" : "No");
+
+    return info;
+}
 
     void rent() {
         if (!isAvailable)
@@ -124,20 +129,24 @@ public:
         if (!isDigitsOnly(this->phone))
             throw std::invalid_argument("Phone must contain digits only");
     }
-  const std::string& getname()const{
+  const std::string& getName()const{
         return name;
     }
      const std::string& getId()const{
         return customerId;
     }
-void getCustomerInfo() const {
-        cout << "ID: " << customerId
-            << "\nName: " << name
-            << "\nphone: " << phone
-            << "\nemail: " << email
-            << "\ndriversLicenseNumber: " << driversLicenseNumber;
-       
-    }
+
+std::string getCustomerInfo() const {
+    std::string info;
+
+    info += "ID: " + customerId;
+    info += "\nName: " + name;
+    info += "\nPhone: " + phone;
+    info += "\nEmail: " + email;
+    info += "\nDriver's License: " + driversLicenseNumber;
+
+    return info;
+}
 
 };
 class Rental{
@@ -196,13 +205,22 @@ class Rental{
     endDate = std::chrono::system_clock::now(); 
 
     }
-    
-void getRentalInfo() const {
-        cout << "rentalId: " << rentalId
-            << "\ncustomerName: " << customer.getname()
-            << "\vehicle: " << vehicle.getId();
-       
+    bool getIsActive()const{
+        return isActive;
     }
+    const std::string& getRentalId()const{
+        return rentalId;
+    }
+    
+std::string getRentalInfo() const{
+     std::string info;
+       
+    info += "Rental ID: " + rentalId;
+    info += "\nCustomer: " + customer.getName();
+    info += "\nVehicle: " + vehicle.getId();
+
+    return info;
+}
 
 };
 class RentalAgency {
@@ -232,6 +250,14 @@ void registerCustomer (const Customer& c){
              throw std::logic_error("Customer already exists");
     }
     customers.push_back(c);
+}
+std::vector<Rental> getActiveRentals() const{
+  std::vector<Rental> result;
+    for(const Rental& r:rentals){
+        if(r.getIsActive())
+            result.push_back(r);
+    }
+      return result ;
 }
    
 };
