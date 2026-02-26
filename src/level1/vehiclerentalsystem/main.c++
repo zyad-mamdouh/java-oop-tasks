@@ -211,6 +211,12 @@ class Rental{
     const std::string& getRentalId()const{
         return rentalId;
     }
+    const  Customer& getCustomer() const {
+    return customer;
+}
+const Vehicle& getVehicle() const {
+    return vehicle;
+}
     
 std::string getRentalInfo() const{
      std::string info;
@@ -259,6 +265,33 @@ std::vector<Rental> getActiveRentals() const{
     }
       return result ;
 }
+std:: vector<Vehicle> getAvailableVehicles() const{
+    std:: vector<Vehicle>  result;
+    for (const Vehicle& v:vehicles ){
+        if(v.available())
+            result.push_back(v);
+    }
+     return result;
+}
+void displayFleet()const {
+    for(const Vehicle& v:vehicles){
+      std::cout<< v.getVehicleInfo() << endl;
+    }
+}
+std::vector<Rental> getCustomerRentals(string customerId) const{
+  vector <Rental> result;
+  for (const Rental& r : rentals){
+        if(customerId == r.getCustomer().getId()){
+            result.push_back(r);
+        }
+    }
+    return result;
+}
+Rental& createRental(const string& customerId,
+                     const string& vehicleId,
+                     int days);
+
+void completeRental(const string& rentalId);
    
 };
 int main() {
