@@ -92,29 +92,69 @@ class OrderItem{
       quantity(quantity),
       specialInstructions(std::move(specialInstructions))
     {
+        if (quantity <= 0)
+      throw std::invalid_argument("quantity must be positive");
 
     }
+    int getQuantity() const {
+    return quantity;
+}
+const MenuItem& getMenuItem() const {
+    return menuItem;
+}
 
+const std::string& getSpecialInstructions() const {
+    return specialInstructions;
+}
+double getSubtotal() const {
+    return quantity*menuItem.getPrice();
+}
+ std::string getOrderItemDetails()const{
+    std::ostringstream info;
 
+    info << "Name: " << menuItem.getName() << '\n'
+     << "Quantity: " << quantity << '\n'
+     << "Special Instructions: " << specialInstructions << '\n'
+     << "Subtotal: " << getSubtotal() << '\n';
+
+return info.str();
+}
 };
-
+enum class OrderStatus
+{
+    Pending,
+    Preparing,
+    Ready,
+    Served,
+    Completed
+};
 class Order{
     private:
     std::string orderId;
     int tableNumber;
     std::list <OrderItem> orderItems;
     std::chrono::system_clock::time_point orderTime;
-    std::string status; 
+     OrderStatus status; 
 
     public:
     Order( std::string orderId, int tableNumber )
     :orderId(std::move(orderId)),
     tableNumber(tableNumber),
     orderTime(std::chrono::system_clock::now()),
-    status("Pending")
-    {}
+   status(OrderStatus::Pending)
+    {
+        if (this->orderId.empty())
+        throw std::invalid_argument("orderId can't be empty");
+        if(tableNumber <=0)
+        throw std::invalid_argument("tableNumber must be positive");
+        
+    }
+    // - `addItem(menuItem, quantity, instructions)`: Adds item to order
 
-
+    void addItem( const MenuItem&  menuItem , int quantity ,const  std::string&  instructions) {
+        OrderItem Item (menuItem,quantity ,instructions);
+        orderItems.emplace_back(Item);
+    }
 
 };
 
