@@ -185,6 +185,37 @@ double getTotal()const{
     
 }
 
+double calculateTip(double percentage) const{
+
+    if(percentage < 0 || percentage > 1)
+        throw std::invalid_argument("Invalid tip percentage");
+
+    if(orderItems.empty())
+        throw std::logic_error("Order is empty");
+
+    return getSubtotal() * percentage;
+}
+void updateStatus(OrderStatus newStatus ){
+
+       if(newStatus < status)
+         throw std::logic_error("Invalid status transition");
+
+   status =newStatus;
+}
+
+ std::string getOrderSummary() const {
+
+    std::ostringstream summary;
+
+    summary << "Order ID: " << orderId << "\n";
+    summary << "Table: " << tableNumber << "\n";
+    summary << "Items Count: " << orderItems.size() << "\n";
+    summary << "Subtotal: " << getSubtotal() << "\n";
+    summary << "Tax: " << getTax() << "\n";
+    summary << "Total: " << getTotal() << "\n";
+
+    return summary.str();
+}
 };
 
 class Menu{
