@@ -166,6 +166,15 @@ class Order{
         
     }
 
+  double getSubtotal() const{
+    
+    double s = 0;
+
+    for(const auto& item : orderItems){
+        s += item.getSubtotal();
+    }
+    return s;
+}
 };
 
 class Menu{
