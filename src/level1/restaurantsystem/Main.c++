@@ -221,15 +221,41 @@ void updateStatus(OrderStatus newStatus ){
 class Menu{
     private:
     std::string restaurantName;
-    std::list<MenuItem> menuItems;
+    std::vector<MenuItem> menuItems;
 
     public:
     Menu(std::string restaurantName )
     :restaurantName(std::move(restaurantName))
     {
-
+        if(this->restaurantName.empty())
+      throw std::invalid_argument("restaurantName cannot be empty");
     }
+     
+    // void addItem( const MenuItem&  menuItem , int quantity ,const  std::string&  instructions) {
+    //    orderItems.emplace_back(menuItem, quantity, instructions);
+    // }
+   void addMenuItem(const MenuItem&  item ){
 
+    for(const auto& it : menuItems){
+
+     if( it.getId()==item.getId()){
+    throw std::logic_error("Item already  exist ");
+    }
+        }
+    menuItems.push_back(item);
+   }
+
+   void removeMenuItem(const std::string& itemId){
+
+    for(auto it=menuItems.begin() ; it!=menuItems.end() ; ++it ){
+
+    if( it->getId()==itemId){
+       menuItems.erase(it);
+       return ;
+    }
+        }
+     throw std::logic_error("Item doesn't exist in menu");
+   }
 
 
 };
