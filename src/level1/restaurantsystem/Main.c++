@@ -231,9 +231,7 @@ class Menu{
       throw std::invalid_argument("restaurantName cannot be empty");
     }
      
-    // void addItem( const MenuItem&  menuItem , int quantity ,const  std::string&  instructions) {
-    //    orderItems.emplace_back(menuItem, quantity, instructions);
-    // }
+   
    void addMenuItem(const MenuItem&  item ){
 
     for(const auto& it : menuItems){
